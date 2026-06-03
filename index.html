@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
@@ -133,6 +133,7 @@
     <div class="show-card">
       <div class="role-tag" id="v2cardWho">Speler 1</div>
       <div class="player" id="v2cardName">—</div>
+      <div class="subtag" id="v2cardTags"></div>
       <div class="cat">De rest kijkt en onthoudt. Speler zelf: niet kijken!</div>
     </div>
     <button class="btn btn-go" style="margin-top:18px" onclick="nextV2()">Volgende speler →</button>
@@ -162,12 +163,13 @@
     <div class="show-card">
       <div class="role-tag">Jouw geheime personage</div>
       <div class="player" id="secretName">—</div>
+      <div class="subtag" id="secretTags"></div>
       <div class="cat">De tegenstander moet déze raden. Tik om te verbergen.</div>
     </div>
   </div>
 </div>
 
-<script src="data-onepiece.js?v=3"></script>
+<script src="data-onepiece.js?v=4"></script>
 <script>
   /* ---------- filters ---------- */
   let diff='m';
@@ -199,6 +201,13 @@
   function filterNote(){
     const names={m:'Makkelijk',h:'Hard',o:'Onmogelijk'};
     return `${names[diff]} · arcs ${arcSet.size}/${OP_ARCS.length}`;
+  }
+  // arc (+ optioneel kenmerk 'k') onder een naam tonen
+  function tagsHTML(name){
+    const c=OP_CHARS.find(x=>x.n===name)||{};
+    let h=`<span class="t-arc">${c.a||''}</span>`;
+    if(c.k) h+=`<span class="t-k">${c.k}</span>`;
+    return h;
   }
 
   /* ---------- variant 1: Wie is het? ---------- */
@@ -243,7 +252,7 @@
   function resetBoard(){ document.querySelectorAll('#board .guess-card').forEach(c=>c.classList.remove('out')); updateCount(); }
   function enterSelect(){ selectMode=true; document.getElementById('selectHint').classList.add('show'); window.scrollTo({top:0,behavior:'smooth'}); }
   function randomSecret(){ secret=BOARD[(Math.random()*BOARD.length)|0]; showSecret(); }
-  function showSecret(){ if(!secret){ enterSelect(); return; } document.getElementById('secretName').textContent=secret; document.getElementById('secretOverlay').classList.add('show'); }
+  function showSecret(){ if(!secret){ enterSelect(); return; } document.getElementById('secretName').textContent=secret; document.getElementById('secretTags').innerHTML=tagsHTML(secret); document.getElementById('secretOverlay').classList.add('show'); }
 
   /* ---------- variant 2: kaart op je hoofd ---------- */
   let cfg2={players:5}; let s2={cards:[],idx:0};
@@ -255,9 +264,9 @@
     s2.cards=shuffle(pool).slice(0,cfg2.players); s2.idx=0; prepV2Pass();
   }
   function prepV2Pass(){ document.getElementById('v2passName').textContent=`Speler ${s2.idx+1}`; go('v2pass'); }
-  function showV2Card(){ document.getElementById('v2cardWho').textContent=`Speler ${s2.idx+1}`; document.getElementById('v2cardName').textContent=s2.cards[s2.idx]; go('v2card'); }
+  function showV2Card(){ document.getElementById('v2cardWho').textContent=`Speler ${s2.idx+1}`; document.getElementById('v2cardName').textContent=s2.cards[s2.idx]; document.getElementById('v2cardTags').innerHTML=tagsHTML(s2.cards[s2.idx]); go('v2card'); }
   function nextV2(){ s2.idx++; if(s2.idx<s2.cards.length){ prepV2Pass(); } else { go('v2ask'); } }
-  function buildV2Reveal(){ document.getElementById('v2revealList').innerHTML=s2.cards.map((n,i)=>`<div class="row"><span class="num">${i+1}</span><span class="nm">${n}</span></div>`).join(''); }
+  function buildV2Reveal(){ document.getElementById('v2revealList').innerHTML=s2.cards.map((n,i)=>{ const c=OP_CHARS.find(x=>x.n===n)||{}; const sub=[c.a,c.k].filter(Boolean).join(' · '); return `<div class="row"><span class="num">${i+1}</span><div class="rowtxt"><span class="nm">${n}</span><span class="rowsub">${sub}</span></div></div>`; }).join(''); }
 
   /* ---------- navigatie ---------- */
   const BACK={ v1lobby:'choose', v1start:'v1lobby', v1join:'v1lobby', v1board:'v1lobby', v2setup:'choose', v2pass:'choose', v2card:'v2pass', v2ask:'choose', v2reveal:'choose' };
