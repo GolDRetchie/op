@@ -1,9 +1,8 @@
 /* =====================================================================
-   One Piece data + helpers voor de One Piece-spellen.
+   One Piece data + helpers.
    Per personage: n = naam, a = arc, t = tier (m=makkelijk, h=hard, o=onmogelijk).
-   Tier = hoe bekend het personage is (makkelijk = iedereen kent 'm).
-   Arc = de arc waar het personage (vooral) thuishoort.
-   Voeg gerust zelf personages toe of pas arc/tier aan — het is een handmatige selectie.
+   Elke regel = 1 personage (handig voor het koppelen van foto's).
+   Nieuwe arc? Zet 'm ook in OP_ARCS hieronder, anders verschijnt hij niet in het filter.
    ===================================================================== */
 
 const OP_ARCS = [
@@ -125,7 +124,6 @@ const OP_CHARS = [
   {n:"Kokoro",a:"Water 7 / Enies Lobby",t:"o"},
   {n:"Yokozuna",a:"Water 7 / Enies Lobby",t:"o"},
   {n:"Oimo",a:"Water 7 / Enies Lobby",t:"h"},
-  {n:"Jaguar D. Saul",a:"Elbaph",t:"h"},
   {n:"Kashii",a:"Water 7 / Enies Lobby",t:"h"},
   {n:"Spandine",a:"Water 7 / Enies Lobby",t:"o"},
 
@@ -135,7 +133,8 @@ const OP_CHARS = [
   {n:"Perona",a:"Thriller Bark",t:"m"},
   {n:"Absalom",a:"Thriller Bark",t:"h"},
   {n:"Dr. Hogback",a:"Thriller Bark",t:"h"},
-  {n:"Ryuma",a:"Thriller Bark",t:"h"},{n:"Oars",a:"Thriller Bark",t:"h"},
+  {n:"Ryuma",a:"Thriller Bark",t:"h"},
+  {n:"Oars",a:"Thriller Bark",t:"h"},
   {n:"Cindry",a:"Thriller Bark",t:"o"},
   {n:"Lola",a:"Thriller Bark",t:"o"},
   {n:"Kumacy",a:"Thriller Bark",t:"o"},
@@ -208,7 +207,6 @@ const OP_CHARS = [
   {n:"Coribou",a:"Fish-Man Island",t:"o"},
   {n:"Wadatsumi",a:"Fish-Man Island",t:"o"},
   {n:"Aladine",a:"Fish-Man Island",t:"o"},
-  {n:"Joyboy",a:"Fish-Man Island",t:"o"},
 
   // ===== Punk Hazard =====
   {n:"Caesar Clown",a:"Punk Hazard",t:"m"},
@@ -255,7 +253,8 @@ const OP_CHARS = [
   {n:"Bepo",a:"Zou",t:"m"},
   {n:"Pekoms",a:"Zou",t:"m"},
   {n:"Dogstorm",a:"Zou",t:"h"},
-  {n:"Master Cat Viper",a:"Zou",t:"h"},{n:"Jack",a:"Zou",t:"h"},
+  {n:"Master Cat Viper",a:"Zou",t:"h"},
+  {n:"Jack",a:"Zou",t:"h"},
   {n:"Pedro",a:"Zou",t:"h"},
   {n:"Wanda",a:"Zou",t:"o"},
   {n:"Kozuki Raizo",a:"Zou",t:"h"},
@@ -336,12 +335,11 @@ const OP_CHARS = [
   {n:"Saint Shepherd Ju Peter",a:"Egghead",t:"h"},
   {n:"Emet",a:"Egghead",t:"o"},
 
-  // ==== Elbaph ===
- {n:"Jaguar D. Saul",a:"Elbaph",t:"m"},
- {n:"Loki",a:"Elbaph",t:"m"},
- {n:"King Harald",a:"Elbaph",t:"h"},
+  // ===== Elbaph =====
+  {n:"Jaguar D. Saul",a:"Elbaph",t:"m"},
+  {n:"Loki",a:"Elbaph",t:"m"},
+  {n:"King Harald",a:"Elbaph",t:"h"}
 ];
-
 
 /* ---------- moeilijkheid: cumulatief ---------- */
 const TIER_SETS = { m:["m"], h:["m","h"], o:["m","h","o"] };
